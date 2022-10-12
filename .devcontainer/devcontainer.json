@@ -31,7 +31,7 @@
         "DISPLAY": "${localEnv:DISPLAY}"
     },
 
-    "workspaceMount": "src=/home/gera/Project/ros/catkin_ws/src/ros_essentials_cpp,dst=/catkin_ws/src/ros_essentials_cpp,type=bind,consistency=cached",
+    "workspaceMount": "src=/home/gera/Project/ros/ros_essentials_cpp,dst=/catkin_ws/src/ros_essentials_cpp,type=bind,consistency=cached",
     "workspaceFolder": "/catkin_ws",
     "postCreateCommand": "sudo chown -R ros:ros /catkin_ws; roscore"
 }
