@@ -1,4 +1,5 @@
 // See https://aka.ms/vscode-remote/devcontainer.json for format details.
+//https://roboticseabass.com/2021/04/21/docker-and-ros/
 {
     "context": "../",
     "name": "ros-noetic-docker",
@@ -9,8 +10,11 @@
     "runArgs": [
         // This will allow you to use a ptrace-based debugger like C++, Go, and Rust.
         "--cap-add=SYS_PTRACE",
-        "--security-opt", "seccomp=unconfined"
+        "--security-opt", "seccomp=unconfined",
+        "--gpus=all",
+        "--env", "NVIDIA_DISABLE_REQUIRE=true"
     ],
+
     // These are the extensions I like to use with ROS2
     "extensions": [
         "ms-azuretools.vscode-docker",
@@ -26,12 +30,15 @@
         "terminal.integrated.shell.linux": "/bin/bash"
     },
     //to allow qt lauch in docker
-    "mounts": ["source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached"],
+    "mounts": ["source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached", "source=/home/gera/.gitconfig,target=/etc/gitconfig,type=bind,consistency=cached"],
+
     "remoteEnv": {
-        "DISPLAY": "${localEnv:DISPLAY}"
+        "DISPLAY": "${localEnv:DISPLAY}",
+        //"NVIDIA_DISABLE_REQUIRE": "true",
+        "NVIDIA_DRIVER_CAPABILITIES": "all"
     },
 
     "workspaceMount": "src=/home/gera/Project/ros/ros_essentials_cpp,dst=/catkin_ws/src/ros_essentials_cpp,type=bind,consistency=cached",
     "workspaceFolder": "/catkin_ws",
-    "postCreateCommand": "sudo chown -R ros:ros /catkin_ws; roscore"
+    "postCreateCommand": "sudo chown -R ros:ros /catkin_ws; catkin_make; roscore"
 }
